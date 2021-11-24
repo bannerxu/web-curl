@@ -14,7 +14,7 @@ Web 项目中，将前端请求以Curl的形式在日志中打印出来。方便
 <dependency>
     <groupId>top.banner.lib</groupId>
     <artifactId>curl</artifactId>
-    <version>1.0-20211124.070642-1</version>
+    <version>1.1</version>
 </dependency>
 ```
 

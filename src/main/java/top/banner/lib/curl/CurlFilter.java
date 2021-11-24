@@ -8,7 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.Collections;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 /**
  * curl过滤器：
@@ -19,32 +20,23 @@ import java.util.List;
 public class CurlFilter implements Filter {
     private static final Logger log = LoggerFactory.getLogger(CurlFilter.class);
 
-    public CurlFilter() {
-        this.ignoreList = Collections.singletonList("/actuator");
-    }
 
-    public CurlFilter(List<String> ignoreList) {
-        this.ignoreList = ignoreList;
-    }
+    private final Set<String> urlPatterns = new LinkedHashSet<>();
+
 
     @Override
     public void init(FilterConfig filterConfig) {
 
     }
 
-    /**
-     * 要忽略的URI
-     */
-    private final List<String> ignoreList;
 
-    /**
-     * 判断是否需要忽略
-     *
-     * @return 如果要忽略返回 true
-     */
-    public Boolean ignore(HttpServletRequest request) {
-        String requestURI = request.getRequestURI();
-        return ignoreList.stream().anyMatch(requestURI::contains);
+    public void addIgnoreUrlPatterns(String... urlPatterns) {
+        if (null != urlPatterns) {
+            Collections.addAll(this.urlPatterns, urlPatterns);
+            for (String urlPattern : urlPatterns) {
+                UrlPattern.addUrlPattern(urlPattern);
+            }
+        }
     }
 
     @Override
@@ -67,6 +59,17 @@ public class CurlFilter implements Filter {
             }
         }
 
+    }
+
+
+    /**
+     * 判断是否需要忽略
+     *
+     * @return 如果要忽略返回 true
+     */
+    private Boolean ignore(HttpServletRequest request) {
+        String requestURI = request.getRequestURI();
+        return UrlPattern.matches(requestURI);
     }
 
     @Override
