@@ -1,4 +1,4 @@
-## Curl ![](https://img.shields.io/badge/JDK-1.8+-green.svg)
+## Curl ![](https://img.shields.io/badge/JDK-1.8+-green.svg) ![](https://img.shields.io/github/v/tag/bannerxu/web-curl) ![](https://img.shields.io/github/v/release/bannerXu/web-curl)
 Web 项目中，将前端请求以Curl的形式在日志中打印出来。方便后端调试。
 
 ## 使用
@@ -14,7 +14,7 @@ Web 项目中，将前端请求以Curl的形式在日志中打印出来。方便
 <dependency>
     <groupId>top.banner.lib</groupId>
     <artifactId>curl</artifactId>
-    <version>1.1</version>
+    <version>1.3</version>
 </dependency>
 ```
 
@@ -25,8 +25,12 @@ public class FilterConfig {
     @Bean
     public FilterRegistrationBean<CurlFilter> curlFilterRegistration() {
         FilterRegistrationBean<CurlFilter> registration = new FilterRegistrationBean<>();
-        //添加过滤器
-        registration.setFilter(new CurlFilter());
+        //初始化过滤器
+        CurlFilter curlFilter = new CurlFilter();
+        //设置不要打印的url
+        curlFilter.addIgnoreUrlPatterns("*.js", "*.html", "*.css", "*.ico", "/swagger-resources/*", "/v2/api-docs");
+        registration.setFilter(curlFilter);
+
         //设置过滤路径，/*所有路径
         registration.addUrlPatterns("/*");
         registration.setName("curlFilter");
