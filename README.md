@@ -4,17 +4,10 @@ Web 项目中，将前端请求以Curl的形式在日志中打印出来。方便
 ## 使用
 添加依赖
 ```xml
-<repository>
-    <id>liMao</id>
-    <url>https://maven.shinianwangluo.com/repository/public/</url>
-</repository>
-```
-
-```xml
 <dependency>
-    <groupId>top.banner.lib</groupId>
-    <artifactId>curl</artifactId>
-    <version>1.3</version>
+  <groupId>io.github.bannerxu</groupId>
+  <artifactId>curl</artifactId>
+  <version>1.3-Release</version>
 </dependency>
 ```
 
@@ -35,7 +28,7 @@ public class FilterConfig {
         registration.addUrlPatterns("/*");
         registration.setName("curlFilter");
         //设置优先级
-        registration.setOrder(Integer.MAX_VALUE);
+        registration.setOrder(0);
         registration.setDispatcherTypes(DispatcherType.REQUEST);
         return registration;
     }
